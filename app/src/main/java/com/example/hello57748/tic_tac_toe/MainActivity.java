@@ -6,9 +6,15 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Button;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    //CREATE DATABASE
+    DatabaseReference databaseInfoToStore;
 
     //DECLARING PAGE
     //  new game button
@@ -37,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        databaseInfoToStore = FirebaseDatabase.getInstance().getReference("button texts");
 
         //CREATING TEXTVIEW REFERENCES
         //  turn textview
@@ -99,6 +106,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //resetting winner text
                 winner_text.setText("Winner: Not Found Yet");
 
+                //storing data in database
+                addButtonTextsToDatabase();
+
                 break;
             case R.id.button_0_0:
 
@@ -124,6 +134,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     winner_text.setText("Winner: Player Y");
                 }
 
+                //storing data in database
+                addButtonTextsToDatabase();
+
                 break;
             case R.id.button_0_1:
 
@@ -147,6 +160,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 else if (check_for_winner("Y")){
                     winner_text.setText("Winner: Player Y");
                 }
+
+                //storing data in database
+                addButtonTextsToDatabase();
 
                 break;
             case R.id.button_0_2:
@@ -172,6 +188,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     winner_text.setText("Winner: Player Y");
                 }
 
+                //storing data in database
+                addButtonTextsToDatabase();
+
                 break;
             case R.id.button_1_0:
 
@@ -195,6 +214,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 else if (check_for_winner("Y")){
                     winner_text.setText("Winner: Player Y");
                 }
+
+                //storing data in database
+                addButtonTextsToDatabase();
 
                 break;
             case R.id.button_1_1:
@@ -220,6 +242,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     winner_text.setText("Winner: Player Y");
                 }
 
+                //storing data in database
+                addButtonTextsToDatabase();
+
                 break;
             case R.id.button_1_2:
 
@@ -243,6 +268,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 else if (check_for_winner("Y")){
                     winner_text.setText("Winner: Player Y");
                 }
+
+                //storing data in database
+                addButtonTextsToDatabase();
 
                 break;
             case R.id.button_2_0:
@@ -268,6 +296,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     winner_text.setText("Winner: Player Y");
                 }
 
+                //storing data in database
+                addButtonTextsToDatabase();
+
                 break;
             case R.id.button_2_1:
 
@@ -291,6 +322,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 else if (check_for_winner("Y")){
                     winner_text.setText("Winner: Player Y");
                 }
+
+                //storing data in database
+                addButtonTextsToDatabase();
 
                 break;
             case R.id.button_2_2:
@@ -316,6 +350,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     winner_text.setText("Winner: Player Y");
                 }
 
+                //storing data in database
+                addButtonTextsToDatabase();
+
                 break;
         }
     }
@@ -340,6 +377,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else if (button_0_0.getText().equals(x_y) && button_1_1.getText().equals(x_y) && button_2_2.getText().equals(x_y))
             return true;
         return false;
+    }
+
+    private  void addButtonTextsToDatabase(){
+        String button_0_0_text = button_0_0.getText().toString();
+        String button_0_1_text = button_0_1.getText().toString();
+        String button_0_2_text = button_0_2.getText().toString();
+        String button_1_0_text = button_1_0.getText().toString();
+        String button_1_1_text = button_1_1.getText().toString();
+        String button_1_2_text = button_1_2.getText().toString();
+        String button_2_0_text = button_2_0.getText().toString();
+        String button_2_1_text = button_2_1.getText().toString();
+        String button_2_2_text = button_2_2.getText().toString();
+
+        String id = databaseInfoToStore.push().getKey();
+
+        InfoToStore info_to_store = new InfoToStore(button_0_0_text, button_0_1_text, button_0_2_text, button_1_0_text, button_1_1_text, button_1_2_text, button_2_0_text, button_2_1_text, button_2_2_text);
+
+        databaseInfoToStore.child(id).setValue(info_to_store);
     }
 
 }
